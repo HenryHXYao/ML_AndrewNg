@@ -1,1 +1,1 @@
-EXCERCISE CODES FOR COURSERA MACHINE LEARNING, Andrew Ng
+Exercise codes for machine learning course on coursera, Andrew Ng
