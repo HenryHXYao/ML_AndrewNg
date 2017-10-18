@@ -1,4 +1,4 @@
-function [J grad] = nnCostFunction(nn_params, ...
+function [J , grad] = nnCostFunction(nn_params, ...
                                    input_layer_size, ...
                                    hidden_layer_size, ...
                                    num_labels, ...
@@ -61,25 +61,25 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+for i =1:m
+    a1 = [1;X(i,:)']; % layer1 activations 
+    a2 = [1;sigmoid(Theta1*a1)]; % layer2 activations 
+    a3 = sigmoid(Theta2*a2); % layer3 activations 
+    yi = (1:num_labels)';
+    yi = yi==y(i); % use logical array to generate y
+    J= J + sum(1/m*(-yi.*log(a3)-(1-yi).*log(1-a3)));
+    delta3 = a3 - yi;
+    delta2 = Theta2'* delta3.* a2 .*(1-a2);
+    delta2 = delta2(2:end);
+    Theta2_grad = Theta2_grad + delta3 * a2';
+    Theta1_grad = Theta1_grad + delta2 * a1';
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+J = J + lambda/2/m*(sum(sum(Theta1(:,2:input_layer_size+1).^2))+sum(sum(Theta2(:,2:hidden_layer_size+1).^2)));
+Theta2_grad = Theta2_grad/m;
+Theta1_grad = Theta1_grad/m;
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end) + lambda/m*Theta2(:,2:end);
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end) + lambda/m*Theta1(:,2:end);
 % -------------------------------------------------------------
 
 % =========================================================================
