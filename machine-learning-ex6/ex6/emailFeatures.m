@@ -47,10 +47,12 @@ x = zeros(n, 1);
 %              x = [ 0 0 0 0 1 0 0 0 ... 0 0 0 0 1 ... 0 0 0 1 0 ..];
 %
 %
-
-
-
-
+for i = 1:n
+    logvec = word_indices==i;
+    if sum(logvec)>0
+        x(i) = 1;
+    end
+end
 
 
 
